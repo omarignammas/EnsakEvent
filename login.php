@@ -1,3 +1,37 @@
+<?php
+session_start();
+include ("../../../includes/connexion.php");
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['sub'])) {
+    
+    $_SESSION['login']=$_POST['email'];
+    $_SESSION['password']=$_POST['pass'];
+    $login = mysqli_real_escape_string($link, $_POST['login']);
+    $password = mysqli_real_escape_string($link, $_POST['password']);
+
+    $sql = "SELECT * FROM `organisations` WHERE login='$login';";
+    $result = mysqli_query($link, $sql);
+
+    if ($result) {
+        $data = mysqli_fetch_assoc($result);
+        if ($data && $password = $data['pass']) {
+            $_SESSION['loggedin'] = true;
+            $_SESSION['login'] = $login;
+            $_SESSION['pass'] = $pass;
+            $_SESSION['nom_org'] = $data['nom_org'];
+            $_SESSION['CIN_resp'] = $data['CIN_resp'];
+            header('location: espace_organisation.php');
+            exit;
+        } else {
+            
+            echo "<h2>Votre login ou password est incorrect</h2>";
+        }
+    } else {
+        die('Error: ' . mysqli_error($link));
+    }
+}
+
+mysqli_close($link);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

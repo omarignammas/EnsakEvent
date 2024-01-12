@@ -1,15 +1,6 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "Ensak_Events";
-
-
-$conn=mysqli_connect($servername, $username, $password, $dbname);
-
-if (!$conn) {
-    die("Échec de la connexion à la base de données : " . mysqli_connect_error($conn));
-}
+session_start();
+include ("../../../includes/connexion.php");
 
 
   $id = isset($_POST["id"]) ? $_POST["id"] : "";
@@ -18,6 +9,9 @@ if (!$conn) {
     $email =$_POST["email"];
     $password=rand(10000000, 99999999);
     $message=$_POST['message'];
+
+    $_SESSION['login']=$_POST["email"];
+    $_SESSION['password']=$password
 
     $da="SELECT * FROM demande_organisations WHERE email='$email'";
     $re=mysqli_query($conn,$da);

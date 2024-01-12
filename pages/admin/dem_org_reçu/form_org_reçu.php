@@ -57,13 +57,17 @@
         }
         
         table {
-         width: 100%;
+         width: 94%;
+         margin:3%;
          border-collapse: collapse;
          margin-top: 20px;
+         box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+         
+         
         }
 
         th, td {
-         padding: 10px;
+         padding: 22px;
          border: 1px solid #ddd;
          text-align: left;
         }
@@ -82,7 +86,8 @@
          cursor: pointer;
         }
 
-         button:hover {
+        button:hover {
+            
          background-color: #27ae60;
         }
 
@@ -95,19 +100,7 @@
     </style>
 </head>
 <body>
-
-    <header>
-        <nav>
-            <h1 style="font-family: serif;font-size: 50px;color: #e0dbdb;">Espace Administration </h1>
-            <ul>
-                <li><a href="#Page_Acceuil">Acceuil</a></li>
-                <li><a href="#demandes-modification">Demandes de Modification</a></li>
-                <li><a href="#evenements-organises">Événements Organisés</a></li>
-                <li><a href="#demandes-organisation-evenement">Demandes d'Organisation d'Événement</a></li>
-            </ul>
-        </nav>
-    </header>
-
+<?php include ("../header.html"); ?>
      <main>
         <section id="demandes-inscription" class="dashboard-container">
         <div class="dashboard-container">
@@ -128,17 +121,7 @@
             <tbody>
             <?php
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "Ensak_Events";
-
-
-$conn=mysqli_connect($servername, $username, $password,$dbname); 
-
-if (!$conn){
-    die("Échec de la connexion à la base de données : " . mysqli_connect_error($conn));
-}
+include ("../../../includes/connexion.php");
 $sql = "SELECT * FROM demande_organisations";
 $result = mysqli_query($conn, $sql);
 

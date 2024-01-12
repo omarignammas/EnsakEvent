@@ -56,8 +56,7 @@
         }
         
         table {
-         width: 94%;
-         margin:3%;
+         width: 100%;
          border-collapse: collapse;
          margin-top: 20px;
          box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
@@ -106,18 +105,18 @@
         <div class="dashboard-container">
         <h2 >Les demandes d'organisation des ev&eacutenements</h2>
         <table>
-            <thead >
+            <thead>
                 <tr>
-                    <th>Organization Name</th>
                     <th>Email d'organisation</th>
-                    <th>Description</th>
-                    <th>Lieu</th>
-                    <th>Date</th>
-                    <th>Nombre places</th>
-                    <th>Stand</th>
-                    <th>Payant</th>
+                    <th>Titre</th>
                     <th>Type</th>
-                    <th>Sponsoring</th>
+                    <th>Detail</th>
+                    <th>Debut</th>
+                    <th>Fin</th>
+                    <th>local</th>
+                    <th>deadline</th>
+                    <th>desc</th>
+                    <th>gsm</th>
                     <th>Acceptation des demandes</th>
                 </tr>
             </thead>
@@ -126,26 +125,27 @@
 
 include ("../../../includes/connexion.php");
 
-$sql = "SELECT * FROM depose_evenement";
+$sql = "SELECT * FROM event";
 $result = mysqli_query($conn, $sql);
 
 if (mysqli_num_rows($result) > 0) {
     while ($row= mysqli_fetch_assoc($result)) {
+        $_SESSION['Mail_Org']=$row['mail'];
+        $_SESSION['id_event']=$row['id_event'];
         echo "<tr>";
-        echo "<td>{$row['nom_org']}</td>";
-        echo "<td>{$row['email_org']}</td>";
-        echo "<td>{$row['description']}</td>";
-        echo "<td>{$row['lieu']}</td>";
-        echo "<td>{$row['date']}</td>";
-        echo "<td>{$row['nbr_place']}</td>";
-        echo "<td>{$row['stand']}</td>";
-        echo "<td>{$row['payant']}</td>";
+        echo "<td>{$row['mail']}</td>";
+        echo "<td>{$row['titre']}</td>";
         echo "<td>{$row['type']}</td>";
-        echo "<td>{$row['sponsoring']}</td>";
+        echo "<td>{$row['detail']}</td>";
+        echo "<td>{$row['debut']}</td>";
+        echo "<td>{$row['fin']}</td>";
+        echo "<td>{$row['local']}</td>";
+        echo "<td>{$row['deadline']}</td>";
+        echo "<td>{$row['descp']}</td>";
+        echo "<td>{$row['gsm']}</td>";
         echo "<td>";
-        echo "<button type='submit' name='promotion' style='margin:2%;'><a href='verification_evenement.php'style='color:white;'>Voir la promotion</a></button> <button type='submit' name='Refuser'><a href='verification_evenement.php' style='color:white;'>Refuser l'evenement</a></button>";
-        echo "</form>";
-        echo "</td>";
+        echo "<button type='submit' name='validation'><a href='trait-prom_reçu.php?id={$row['id_event']}' style='color:white;width:200px;height:50px;'>Valider</a></button>";
+        echo "</td>";        
         echo "</tr>";
     }
 } else {

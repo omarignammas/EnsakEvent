@@ -6,61 +6,77 @@
     <title>Inscription Organisateur</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #95a5a6;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 120vh;
-        }
+    font-family: 'Poppins', sans-serif;    background-color: whitesmoke;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 170vh;
+}
 
-        form {
-            background-color: whitesmoke;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
-            width: 400px;
-            text-align: center;
-        }
+.container {
+    padding: 20px;
+    width: 600px;
+    text-align: center;
+    border:3px solid #3498db;
+    border-radius:7px;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
 
-        label {
-            display: block;
-            margin: 15px 0 5px;
-            text-align: left;
-            font-family: serif;
-            font-size: medium;
-        }
+}
 
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            background-color: rgba(255, 255, 255, 0.5);
-            border-radius: 4px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+label {
+    display: block;
+    margin: 15px 0 5px;
+    text-align: left;
+    font-family: 'Poppins', sans-serif;  
+    font-weight: bold;
+}
 
-        button {
-            background-color: #95a5a6;
-            color: #fff;
-            cursor: pointer;
-            padding: 10px;
-            width: 100%;
-            border: none;
-            border-radius: 4px;
-        }
+input,
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+.input{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    background: rgba(255, 255, 255, 0.2);
+}
 
-        button:hover {
-            background-color: #657576;
-        }
-    </style>
+button {
+    background-color: #3498db;
+    margin-left:4%;
+    color: #fff;
+    cursor: pointer;
+    padding: 10px;
+    width: 30%;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    font-family: 'Poppins', sans-serif;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+     </style>
 </head>
 <body>
-    <form action="demande_d'organisation.php" method="POST">
+    <div class="container">
+    <form action="form_org.php" method="POST">
         <h3 style="font-family: serif;font-weight: bolder;font-size: x-large;">DEMANDE D'ORGANISATION D'UN &Eacute;VENEMENT</h3>
         <label for="email">Email :</label>
         <input type="email" name="email" required placeholder="ex:courrier@uit.ac.ma">
@@ -72,7 +88,7 @@
         <input type="text" name="type" required placeholder="Entrer le type d'&eacute;venement organise&eacute;">
 
         <label for="description">Description(Objectifs):</label>
-        <textarea style="width: 395px;box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);background-color: rgba(255, 255, 255, 0.5);" name="description" rows="4" required placeholder="Entrer une description d'&eacute;venement"></textarea>
+        <textarea style="width: 600px;box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);background-color: rgba(255, 255, 255, 0.5);" name="description" rows="4" required placeholder="Entrer une description d'&eacute;venement"></textarea>
 
         <label for="nom_resp">Nom du Responsable :</label>
         <input type="text" name="nom_resp" required placeholder="Entrer le nom responsable ">
@@ -83,7 +99,8 @@
         <label for="cin_resp">CIN du Responsable :</label>
         <input type="text" name="cin_resp" required placeholder="Entrer le CIN du responsable ">
 
-        <button style="font-family: serif;font-size: medium;" type="submit" name="submit" href="verification.html">Envoyer la demande</button>
+        <button style="font-family: serif;font-size: medium;" type="submit" name="submit" >Envoyer la demande</button>
     </form>
+    </div>
 </body>
 </html>

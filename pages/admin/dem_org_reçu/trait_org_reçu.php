@@ -11,26 +11,25 @@ include ("../../../includes/connexion.php");
     $message=$_POST['message'];
 
     $_SESSION['login']=$_POST["email"];
-    $_SESSION['password']=$password
+    $_SESSION['password']=$password;
 
-    $da="SELECT * FROM demande_organisations WHERE email='$email'";
+    $da="SELECT * FROM demande_org WHERE Mail_Org='$email'";
     $re=mysqli_query($conn,$da);
 
     //stocker dans un tab;
     $data=mysqli_fetch_assoc($re);
     
     //lorsue j'accepte la demande d'etre organisateur je le stocker dans la table organisateur
-    $dn = "INSERT INTO organisations (email, pass, nom_org, Type, description, nom_resp, prenom_resp, CIN_resp) VALUES ('{$data['email']}', '$password', '{$data['nom_org']}', '{$data['Type']}', '{$data['description']}', '{$data['nom_resp']}', '{$data['prenom_resp']}', '{$data['CIN_resp']}')";
+    $dn = "INSERT INTO organisateur (Mail_org , Nom_org, Type_Org, Description, Nom_resp, Prenom_resp, CIN) VALUES ('{$data['email']}', '{$data['nom_org']}', '{$data['Type']}', '{$data['description']}', '{$data['nom_resp']}', '{$data['prenom_resp']}', '{$data['CIN_resp']}')";
     mysqli_query($conn, $dn);
 
-    $dt="DELETE FROM demande_organisations WHERE  email='$email'";
+    $dt="DELETE FROM demande_org  WHERE  Mail_Org = '$email'";
     mysqli_query($conn,$dt);
   
-    
 
     if(filter_var($email,FILTER_VALIDATE_EMAIL)){
 
-        $SQL="SELECT * FROM organisations WHERE email='$email'";
+        $SQL="SELECT * FROM organisateur WHERE Mail_Org = '$email'";
         $req=mysqli_query($conn,$SQL);
 
         if(mysqli_num_rows($req)>0){
@@ -52,7 +51,7 @@ include ("../../../includes/connexion.php");
         
             // Envoyer l'e-mail
             if (mail($email, $sujet, $corps, $headers)) {
-                $sql2="UPDATE demande_organisations SET pass='$password'";
+                $sql2="UPDATE organisateur SET password='$password'";
                 $res=mysqli_query($conn,$sql2);
                 if($res){
                     header('location:Creation_compte.html');
@@ -165,6 +164,7 @@ include ("../../../includes/connexion.php");
     </style>
 </head>
 <body>
+<?php include ("../header.html"); ?>
     <form action="" method="POST">
     <div class="verification-container">
         <img src="photo/valide.jpg" alt="Envoyée" height="60" width="60">

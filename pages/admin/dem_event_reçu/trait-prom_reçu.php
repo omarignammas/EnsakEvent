@@ -68,6 +68,7 @@ textarea {
 button {
     background-color: #3498db;
     margin-left:6%;
+    margin-top:20px;
     color: #fff;
     cursor: pointer;
     padding: 10px;
@@ -114,7 +115,7 @@ if (isset($_POST['action'])) {
         $Mail_Org=$_SESSION['Mail_Org'];
 
         // Retrieve event details from the event table using the event_id
-        $sql = "SELECT * FROM event WHERE mail = '$Mail_Org' ";
+        $sql = "SELECT * FROM event WHERE mail = '$Mail_Org' AND checked = 2 ";
         $result = mysqli_query($conn, $sql);
 
         if ($result && mysqli_num_rows($result) > 0) {
@@ -136,8 +137,17 @@ if (isset($_POST['action'])) {
                 <label>justificatif:</label>
                 <textarea  name="justif" placeholder="Justifier votre decision..." required></textarea>
 
-                <label>image:</label>
-                <input type="text" value="<?php echo $eventDetails['img']; ?>" readonly>
+                <div>
+                <?php
+                 $img = $eventDetails['img'];
+                 $imagePath = $img;
+                if (!empty($imagePath)) {
+                 echo "<label>Image:</label>";
+                 echo "<img src='../../organisateur/dem_event/images/$img' alt='Event Image' style='max-width: 100%; height: 200px;'>";
+                 }
+               ?>        
+                </div>
+                
 
                 <button type="submit" name="action" value="Refuser">Refuser</button>
                 <button type="submit" name="action" value="Accepter">Accepter</button>

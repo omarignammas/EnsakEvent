@@ -1,3 +1,6 @@
+<?php
+include ("../../../includes/connexion.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -123,9 +126,7 @@
             <tbody>
             <?php
 
-include ("../../../includes/connexion.php");
-
-$sql = "SELECT * FROM event";
+$sql = "SELECT * FROM event WHERE checked = 2 ";
 $result = mysqli_query($conn, $sql);
 
 if (mysqli_num_rows($result) > 0) {

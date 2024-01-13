@@ -40,14 +40,15 @@ include ("../../../includes/connexion.php");
         nav ul li {
             display: inline;
             margin-right: 60px;
-            font-size: 1.1rem;
+            font-size: 1.0rem;
             text-transform: none;
             border-radius: 8px;
             padding: 5px;
             box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
         }
         nav ul li a:hover{
-            color: #b1abab;
+            color: #bbabab;
+            text-decoration: underline;
             transition: 0.3 ease;
             
         }
@@ -96,7 +97,7 @@ include ("../../../includes/connexion.php");
 
     </style> 
 </head>
-<?php include ("..\..\header.html"); ?>
+<?php include ("..\headerorg.html"); ?>
 <body>
     <h2>Event application Details </h2>
     <table>

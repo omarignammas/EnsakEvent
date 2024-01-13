@@ -1,3 +1,6 @@
+<?php
+include ("../../../includes/connexion.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -86,21 +89,27 @@ button:hover {
 <body>
     <div class="container">
         <h2 style="font-family: serif;font-size: xx-large;">Details d'événement</h2>
-        <form action="promotion.php" method="post" enctype="multipart/form-data">
+        <form action="" method="POST" enctype="multipart/form-data">
         <?php
-        include ("../../../includes/connexion.php");
 
-        if (isset($_POST['action'])) {
-            $action = $_POST['action'];
-            $eventId = $_SESSION['id_event'];
-            if ($action === 'accepter') {
-                $updateCheckedQuery = "UPDATE event SET checked = 1 WHERE event_id = $eventId";
-                mysqli_query($conn, $updateCheckedQuery);
-            } elseif ($action === 'refuser') {
-                $updateCheckedQuery = "UPDATE event SET checked = 0 WHERE event_id = $eventId";
-                mysqli_query($conn, $updateCheckedQuery);
-            }
-        }
+if (isset($_POST['action'])) {
+    $action = $_POST['action'];
+    $justif = mysqli_real_escape_string($conn, $_POST['justif']); // Assure la sécurité contre les injections SQL
+    $eventId = $_SESSION['id_event'];
+
+    if ($action == 'Accepter') {
+        $updateCheckedQuery = "UPDATE event SET checked = 1, justif = '$justif' WHERE id_event = $eventId";
+    } elseif ($action == 'Refuser') {
+        $updateCheckedQuery = "UPDATE event SET checked = 0, justif = '$justif' WHERE id_event = $eventId";
+    }
+
+    if(mysqli_query($conn, $updateCheckedQuery)){
+        header('location:..\dem_event_reçu\form-event_reçu.php');
+        exit();
+    } else {
+        echo "Erreur lors de la mise à jour de l'événement : " . mysqli_error($conn);
+    }
+}
 
         $Mail_Org=$_SESSION['Mail_Org'];
 
@@ -130,8 +139,8 @@ button:hover {
                 <label>image:</label>
                 <input type="text" value="<?php echo $eventDetails['img']; ?>" readonly>
 
-                <button type="button" name="action" value="refuser"  onclick="refuser()">Refuser</button>
-                <button type="button" name="action" value="accepter" onclick="accepter()">Accepter</button>
+                <button type="submit" name="action" value="Refuser">Refuser</button>
+                <button type="submit" name="action" value="Accepter">Accepter</button>
            
         </form>
     </div>

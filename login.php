@@ -108,7 +108,7 @@ mysqli_close($link);
             font-weight: bold;
             font-size: 15px;
         }
-        p{
+        p {
             font-family:serif;
         }
 

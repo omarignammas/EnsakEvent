@@ -37,10 +37,10 @@
         nav ul li {
             display: inline;
             margin-right: 60px;
-            font-size: 1.1rem;
+            font-size: 1.0rem;
             text-transform: none;
             border-radius: 8px;
-            padding: 5px;
+            padding: 6px;
             box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
         }
         nav ul li a:hover{
@@ -60,7 +60,6 @@
          border-collapse: collapse;
          margin-top: 20px;
          box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
-         
          
         }
 
@@ -144,7 +143,7 @@ if (mysqli_num_rows($result) > 0) {
         echo "<td>{$row['descp']}</td>";
         echo "<td>{$row['gsm']}</td>";
         echo "<td>";
-        echo "<button type='submit' name='validation'><a href='trait-prom_reçu.php?id={$row['id_event']}' style='color:white;width:200px;height:50px;'>Valider</a></button>";
+        echo "<button type='submit' name='validation'><a href='trait-prom_reçu.php?id={$row['id_event']}' style='color:white;width:200px;height:50px;'>Voir en d&eacutetails</a></button>";
         echo "</td>";        
         echo "</tr>";
     }

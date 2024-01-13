@@ -1,5 +1,4 @@
 <?php
-session_start();
 include ("../../../includes/connexion.php");
 
 
@@ -10,7 +9,7 @@ include ("../../../includes/connexion.php");
     $password=rand(10000000, 99999999);
     $message=$_POST['message'];
 
-    $_SESSION['login']=$_POST["email"];
+    $_SESSION['login']=$_POST["email"];  
     $_SESSION['password']=$password;
 
     $da="SELECT * FROM demande_org WHERE Mail_Org='$email'";
@@ -20,7 +19,7 @@ include ("../../../includes/connexion.php");
     $data=mysqli_fetch_assoc($re);
     
     //lorsue j'accepte la demande d'etre organisateur je le stocker dans la table organisateur
-    $dn = "INSERT INTO organisateur (Mail_org , Nom_org, Type_Org, Description, Nom_resp, Prenom_resp, CIN) VALUES ('{$data['email']}', '{$data['nom_org']}', '{$data['Type']}', '{$data['description']}', '{$data['nom_resp']}', '{$data['prenom_resp']}', '{$data['CIN_resp']}')";
+    $dn = "INSERT INTO organisateur (mail_org ,pass, nom_org, type, about, nom_rep, prenom_rep, cin , gsm) VALUES ('{$data['Mail_Org']}', NULL ,'{$data['Nom_Org']}', '{$data['Type_Org']}', '{$data['Description']}', '{$data['Nom_resp']}', '{$data['Prenom_resp']}', '{$data['CIN']}','{$data['GSM']}')";
     mysqli_query($conn, $dn);
 
     $dt="DELETE FROM demande_org  WHERE  Mail_Org = '$email'";
@@ -51,10 +50,10 @@ include ("../../../includes/connexion.php");
         
             // Envoyer l'e-mail
             if (mail($email, $sujet, $corps, $headers)) {
-                $sql2="UPDATE organisateur SET password='$password'";
+                $sql2="UPDATE organisateur SET pass='$password'";
                 $res=mysqli_query($conn,$sql2);
                 if($res){
-                    header('location:Creation_compte.html');
+                    header('location:..\dem_org_reçu\cheekorg.html');
                 }else
                     echo 'veuillez ressayer';
                
@@ -144,7 +143,7 @@ include ("../../../includes/connexion.php");
         .home-link2 {
             display: block;
             margin-top: 10px;
-            width: 100%;
+            width: 93%;
             margin-bottom: 20px;
             text-decoration: none;
             background-color: #3498db;
@@ -164,10 +163,9 @@ include ("../../../includes/connexion.php");
     </style>
 </head>
 <body>
-<?php include ("../header.html"); ?>
     <form action="" method="POST">
     <div class="verification-container">
-        <img src="photo/valide.jpg" alt="Envoyée" height="60" width="60">
+        <img src="..\photo1/valide.jpg" alt="Envoyée" height="60" width="60">
         <h2>Le compte d'organisation a été Cre&eacute; avec succès !</h2>
         <label for="email">Entrer L'email de l'organisation :</label>
         <input type="email" name="email"  value="<?php echo $id ?>" placeholder="<?php echo $id ?>">
@@ -176,7 +174,7 @@ include ("../../../includes/connexion.php");
         <input type="text" name="message" placeholder="Tapez votre message">
         <button type="submit" name="envoyer"  class="home-link1">Envoyer Le compte organisateur</button> 
 
-        <a href="Espace administration.php" class="home-link1">Retour à Espace d'acceuil</a>
+        <a href="..\dem_org_reçu\form_org_reçu.php" class="home-link2">Retour à Espace d'administration</a>
     </div>
     </form>
 </body>

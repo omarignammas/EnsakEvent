@@ -1,18 +1,17 @@
 <?php
-include
+include ("../../../includes/connexion.php");
 if($_SERVER["REQUEST_METHOD"] == "POST" and isset($_POST['submit'])){
 // Récupérer les données du formulaire
 $nom_org =  $_POST['nom_org'];
-$description =$_POST['description'];
 $Email =$_POST['email_org'];
-$nbr_place = $_POST['nbr_place'];
-$transport = $_POST['transport'];
-$sponsoring = $_POST['sponsoring'];
-$ouvert = $_POST['ouvert'];
-$payant = $_POST['payant'];
-$stand = $_POST['stand'];
+$description =$_POST['description'];
+$titre = $_POST['titre'];
 $type = $_POST['type'];
-$date = $_POST['date'];
+$gsm = $_POST['gsm'];
+$datedebut = $_POST['datedebut'];
+$datefin = $_POST['datefin'];
+$deadline = $_POST['deadline'];
+$detail = $_POST['detail'];
 $lieu = $_POST['lieu'];
 
 // Télécharger l'image
@@ -41,8 +40,8 @@ if(!move_uploaded_file($temp_name,$dossier.$nom_photo)){
 
 }
 // Insérer les données dans la base de données
-    $sql = "INSERT INTO depose_evenement (photo,nom_org,email_org,description, nbr_place, transport, sponsoring, ouvert, payant, stand, type, date, lieu)
-        VALUES ('$nom_photo','$nom_org','$Email','$description', '$nbr_place', '$transport', '$sponsoring', '$ouvert', '$payant', '$stand', '$type', '$date', '$lieu')";
+    $sql = "INSERT INTO event (mail,nom_org,titre,descp, type, debut, fin, local, img, deadline,detail, gsm,)
+        VALUES ('$Email','$nom_org','$titre','$description', '$type', '$datedebut', '$datefin','$lieu','$nom_photo','$deadline', '$detail', '$gsm')";
 
 if ($conn->query($sql) === TRUE) {
     header('location:promotion_envoyer.html');

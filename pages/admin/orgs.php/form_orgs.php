@@ -111,7 +111,7 @@ table {
      <main>
         <section id="demandes-inscription" class="dashboard-container">
         <div class="dashboard-container">
-        <h2 >Les demandes d'inscriptions des organisateurs</h2>
+        <h2 >Les organisateurs disponibles</h2>
         <table>
             <thead >
                 <tr>
@@ -122,33 +122,28 @@ table {
                     <th>nom responsable</th>
                     <th>prenom responsable</th>
                     <th>CIN responsable</th>
-                    <th>Acceptation des demandes</th>
+                    <th>Gsm</th>
                 </tr>
             </thead>
             <tbody>
             <?php
 
 include ("../../../includes/connexion.php");
-$sql = "SELECT * FROM demande_org";
+$sql = "SELECT * FROM organisateur";
 $result = mysqli_query($conn, $sql);
 
 
 if (mysqli_num_rows($result) > 0) {
     while ($row= mysqli_fetch_assoc($result)) {
-        $_SESSION['Mail_Org']=$row['Mail_Org'];
         echo "<tr>";
-        echo "<td>{$row['Mail_Org']}</td>";
-        echo "<td>{$row['Nom_Org']}</td>";
-        echo "<td>{$row['Type_Org']}</td>";
-        echo "<td>{$row['Description']}</td>";
-        echo "<td>{$row['Nom_resp']}</td>";
-        echo "<td>{$row['Prenom_resp']}</td>";
-        echo "<td>{$row['CIN']}</td>";
-        echo "<td>";
-        echo "<form action='trait_org_reçu.php' method='POST'>";
-        echo "<input type='hidden' name='id' value='{$row['Mail_Org']}'>";
-        echo "<button type='submit' name='valider'style='padding:10px;Width:140px;margin:5%;'>Valider</button>";
-        echo "</form>";
+        echo "<td>{$row['mail_org']}</td>";
+        echo "<td>{$row['nom_org']}</td>";
+        echo "<td>{$row['type']}</td>";
+        echo "<td>{$row['about']}</td>";
+        echo "<td>{$row['nom_rep']}</td>";
+        echo "<td>{$row['prenom_rep']}</td>";
+        echo "<td>{$row['cin']}</td>";
+        echo "<td>{$row['gsm']}</td>";
         echo "</td>";
         echo "</tr>";
     }

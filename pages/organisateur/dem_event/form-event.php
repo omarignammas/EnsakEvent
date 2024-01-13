@@ -1,5 +1,4 @@
 <?php
-session_start();
 include ("../../../includes/connexion.php");
 ?>
 <!DOCTYPE html>
@@ -97,27 +96,34 @@ include ("../../../includes/connexion.php");
 
     </style> 
 </head>
+<?php include ("..\..\header.html"); ?>
 <body>
-    <h2>Event Details in Admin Area</h2>
+    <h2>Event application Details </h2>
     <table>
         <thead>
             <tr>
-                <th>Title</th>
-                <th>Date/Horaire</th>
+                <th>Nom d'organisation</th>
+                <th>Titre d'evenement</th>
+                <th>Type d'evenement</th>
+                <th>deadline</th>
                 <th>Local</th>
-                <th>Instructions</th>
+                <th>Justificatif</th>
                 <th>Etat</th>
             </tr>
         </thead>
         <tbody>
             <?php
+            $sql = "SELECT * FROM event";
+            $result = mysqli_query($conn, $sql);            
             while ($row = mysqli_fetch_assoc($result)) {
                 $etat = ($row['checked'] == 0) ? 'Refusee' : (($row['checked'] == 1) ? 'Acceptee' : 'En cours de traitement');
                 echo "<tr>";
-                echo "<td>{$row['title']}</td>";
-                echo "<td>{$row['datehoraire']}</td>";
+                echo "<td>{$row['nom_org']}</td>";
+                echo "<td>{$row['titre']}</td>";
+                echo "<td>{$row['type']}</td>";
+                echo "<td>{$row['deadline']}</td>";
                 echo "<td>{$row['local']}</td>";
-                echo "<td>{$row['justificatif']}</td>";
+                echo "<td>{$row['justif']}</td>";
                 echo "<td>{$etat}</td>";
                 echo "</tr>";
             }

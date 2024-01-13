@@ -16,7 +16,7 @@ $lieu = $_POST['lieu'];
 
 // Télécharger l'image
 if(isset($_FILES['fichier']) and $_FILES['fichier']['error']==0){
-    $dossier='photo/';
+    $dossier='images/';
     $temp_name=$_FILES['fichier']['tmp_name'];
     if(!is_uploaded_file($temp_name)){
         exit("le fichier est introuvable!");
@@ -44,7 +44,7 @@ if(!move_uploaded_file($temp_name,$dossier.$nom_photo)){
         VALUES ('$Email','$nom_org','$titre','$description', '$type', '$datedebut', '$datefin','$lieu','$nom_photo','$deadline', '$detail', '$gsm')";
 
 if ($conn->query($sql) === TRUE) {
-    header('location:promotion_envoyer.html');
+    header('location:..\dem_event\form-event.php');
 } else {
     echo "Erreur : " . $sql . "<br>" . $conn->error;
 }

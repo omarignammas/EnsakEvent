@@ -14,8 +14,8 @@ if (!$link) {
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['sub'])) {
     
     $_SESSION['login']=$_POST['email'];
-    $_SESSION['password']=$_POST['pass'];
-    $login = mysqli_real_escape_string($link, $_POST['login']);
+    $_SESSION['password']=$_POST['password'];
+    $login = mysqli_real_escape_string($link, $_POST['email']);
     $password = mysqli_real_escape_string($link, $_POST['password']);
 
     $sql = "SELECT * FROM `organisateur` WHERE Mail_Org='$login';";
@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['sub'])) {
             $_SESSION['pass'] = $pass;
             $_SESSION['nom_org'] = $data['nom_org'];
             $_SESSION['CIN_resp'] = $data['CIN_resp'];
-            header('location: espace_organisation.php');
+            header('location: pages\organisateur\dem_event\form-event.php');
             exit;
         } else {
             

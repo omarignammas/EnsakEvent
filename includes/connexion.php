@@ -3,7 +3,7 @@ session_start();
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "Ensak_Events";
+$dbname = "Ensakenitra_Events";
 
 
 $conn=mysqli_connect($servername, $username, $password, $dbname);

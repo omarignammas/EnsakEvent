@@ -1,14 +1,24 @@
 <?php
 session_start();
-include ("../../../includes/connexion.php");
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "Ensakenitra_Events";
+
+$link=mysqli_connect($servername, $username, $password, $dbname);
+
+if (!$link) {
+    die("Échec de la connexion à la base de données : " . mysqli_connect_error($link));
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['sub'])) {
     
     $_SESSION['login']=$_POST['email'];
-    $_SESSION['password']=$_POST['pass'];
-    $login = mysqli_real_escape_string($link, $_POST['login']);
+    $_SESSION['password']=$_POST['password'];
+    $login = mysqli_real_escape_string($link, $_POST['email']);
     $password = mysqli_real_escape_string($link, $_POST['password']);
 
-    $sql = "SELECT * FROM `organisations` WHERE login='$login';";
+    $sql = "SELECT * FROM `organisateur` WHERE Mail_Org='$login';";
     $result = mysqli_query($link, $sql);
 
     if ($result) {
@@ -19,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['sub'])) {
             $_SESSION['pass'] = $pass;
             $_SESSION['nom_org'] = $data['nom_org'];
             $_SESSION['CIN_resp'] = $data['CIN_resp'];
-            header('location: espace_organisation.php');
+            header('location: pages\organisateur\dem_event\form-event.php');
             exit;
         } else {
             
@@ -98,7 +108,7 @@ mysqli_close($link);
             font-weight: bold;
             font-size: 15px;
         }
-        p{
+        p {
             font-family:serif;
         }
 
@@ -122,7 +132,7 @@ mysqli_close($link);
         <input  href="Espace organisation.php" style="margin-bottom: 10px;" type="submit" name="sub" value="Connexion">
         <input style="margin-top: 0px;" type="submit" name="sub" value="Retour à l'accueil">
 
-        <p>Don't have an account? <a href="demande_d'organisation.html">Demande d'organisation</a></p>
+        <p>Don't have an account? <a href="pages\organisateur\dem_org\form_org.html">Demande d'organisation</a></p>
     </form>
 </body>
 </html>

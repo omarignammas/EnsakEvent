@@ -1,12 +1,12 @@
 <?php
-session_start();
+include ("../../../includes/connexion.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Espace Administration</title>
+    <title>Espace Organisation</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -94,71 +94,45 @@ session_start();
          font-size: 2.1rem;
         }
 
-    </style>
+    </style> 
 </head>
+<?php include ("..\..\header.html"); ?>
 <body>
-    
-     <main>
-        <section id="demandes-inscription" class="dashboard-container">
-        <div class="dashboard-container">
-        <h2 >Les evenements organises</h2>
-        <table>
-            <thead >
-                <tr>
-                    <th>Email</th>
-                    <th>Organization Name</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                    <th>nom responsable</th>
-                    <th>prenom responsable</th>
-                    <th>CIN responsable</th>
-                    <th>Acceptation des demandes</th>
-                </tr>
-            </thead>
-            <tbody>
+    <h2>Event application Details </h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Nom d'organisation</th>
+                <th>Titre d'evenement</th>
+                <th>Type d'evenement</th>
+                <th>deadline</th>
+                <th>Local</th>
+                <th>Justificatif</th>
+                <th>Etat</th>
+            </tr>
+        </thead>
+        <tbody>
             <?php
-
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "Ensak_Events";
-
-$conn=mysqli_connect($servername, $username, $password,$dbname); 
-
-if (!$conn){
-    die("Échec de la connexion à la base de données : " . mysqli_connect_error($conn));
-}
-$sql = "SELECT * FROM demande_organisations";
-$result = mysqli_query($conn, $sql);
-
-if (mysqli_num_rows($result) > 0) {
-    while ($row= mysqli_fetch_assoc($result)) {
-        echo "<tr>";
-        echo "<td>{$row['email']}</td>";
-        echo "<td>{$row['nom_org']}</td>";
-        echo "<td>{$row['Type']}</td>";
-        echo "<td>{$row['description']}</td>";
-        echo "<td>{$row['nom_resp']}</td>";
-        echo "<td>{$row['prenom_resp']}</td>";
-        echo "<td>{$row['CIN_resp']}</td>";
-        echo "<td>";
-        echo "<form action='Envoyer_compte.php' method='POST'>";
-        echo "<input type='hidden' name='id' value='{$row['email']}'>";
-        echo "<button type='submit' name='valider'>Valider</button>";
-        echo "</form>";
-        echo "</td>";
-        echo "</tr>";
-    }
-} else {
-    echo "<tr><td colspan='4'>No registration requests found.</td></tr>";
-}
-?> 
-            </tbody>
-        </table>
-    </div>
-    </form>
+            $sql = "SELECT * FROM event";
+            $result = mysqli_query($conn, $sql);            
+            while ($row = mysqli_fetch_assoc($result)) {
+                $etat = ($row['checked'] == 0) ? 'Refusee' : (($row['checked'] == 1) ? 'Acceptee' : 'En cours de traitement');
+                echo "<tr>";
+                echo "<td>{$row['nom_org']}</td>";
+                echo "<td>{$row['titre']}</td>";
+                echo "<td>{$row['type']}</td>";
+                echo "<td>{$row['deadline']}</td>";
+                echo "<td>{$row['local']}</td>";
+                echo "<td>{$row['justif']}</td>";
+                echo "<td>{$etat}</td>";
+                echo "</tr>";
+            }
+            ?>
+        </tbody>
+    </table>
 </body>
 </html>
+
 
 
   

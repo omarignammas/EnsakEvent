@@ -43,7 +43,9 @@ if(!move_uploaded_file($temp_name,$dossier.$nom_photo)){
     $sql = "INSERT INTO event (mail,nom_org,titre,descp, type, debut, fin, local, img, deadline,detail, gsm,)
         VALUES ('$Email','$nom_org','$titre','$description', '$type', '$datedebut', '$datefin','$lieu','$nom_photo','$deadline', '$detail', '$gsm')";
 
-if ($conn->query($sql) === TRUE) {
+if ($result = mysqli_query($conn, $sql)) {
+    $row= mysqli_fetch_assoc($result)
+    $_SESSION['id_event']=$row['id_event'];
     header('location:..\dem_event\form-event.php');
 } else {
     echo "Erreur : " . $sql . "<br>" . $conn->error;

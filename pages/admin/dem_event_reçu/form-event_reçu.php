@@ -44,7 +44,8 @@
             box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
         }
         nav ul li a:hover{
-            color: #b1abab;
+            color: #bbabab;
+            text-decoration: underline;
             transition: 0.3 ease;
             
         }

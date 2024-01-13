@@ -1,5 +1,6 @@
 <?php
 include ("../../../includes/connexion.php");
+
 if($_SERVER["REQUEST_METHOD"] == "POST" and isset($_POST['submit'])){
 // Récupérer les données du formulaire
 $nom_org =  $_POST['nom_org'];
@@ -34,23 +35,26 @@ if(!in_array($extension_upload,$extension_autorities)){
     exit("Erreur,Veuillez inserer une image svp (extentions autorisee png)");
 }
 $nom_photo=$nom_org.".".$extension_upload;
+
 if(!move_uploaded_file($temp_name,$dossier.$nom_photo)){
     exit("<h2>Probleme dans telechargement de l'image,Ressayer!</h2>");
 }
 
 }
 // Insérer les données dans la base de données
-    $sql = "INSERT INTO event (mail,nom_org,titre,descp, type, debut, fin, local, img, deadline,detail, gsm,)
-        VALUES ('$Email','$nom_org','$titre','$description', '$type', '$datedebut', '$datefin','$lieu','$nom_photo','$deadline', '$detail', '$gsm')";
+$sql = "INSERT INTO event (mail, nom_org, titre, descp, type, debut, fin, local, img, deadline, detail, gsm)
+VALUES ('$Email', '$nom_org', '$titre', '" . mysqli_real_escape_string($conn, $description) . "', '$type', '$datedebut', '$datefin', '$lieu', '$nom_photo', '$deadline', '$detail', '$gsm')";
 
-if ($result = mysqli_query($conn, $sql)) {
-    $row= mysqli_fetch_assoc($result)
-    $_SESSION['id_event']=$row['id_event'];
-    header('location:..\dem_event\form-event.php');
+$result = mysqli_query($conn, $sql);
+
+if ($result) {
+$lastInsertedId = mysqli_insert_id($conn); // Récupérer l'ID de la dernière insertion
+$_SESSION['id_event'] = $lastInsertedId;
+header('location:..\dem_event\form-event.php');
 } else {
-    echo "Erreur : " . $sql . "<br>" . $conn->error;
+echo "Erreur : " . $sql . "<br>" . mysqli_error($conn);
 }
-}    
-
+}
 $conn->close();
+
 ?>

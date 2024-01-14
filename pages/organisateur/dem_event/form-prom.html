@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>demande d'organisation</title>
+    <style>
+        body {
+    font-family: 'Poppins', sans-serif;    background-color: whitesmoke;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 170vh;
+}
+
+.container {
+    padding: 20px;
+    width: 600px;
+    text-align: center;
+    border:3px solid #3498db;
+    border-radius:7px;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+
+}
+
+label {
+    display: block;
+    margin: 15px 0 5px;
+    text-align: left;
+    font-family: 'Poppins', sans-serif;  
+    font-weight: bold;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+.input{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+button {
+    background-color: #3498db;
+    margin-left:4%;
+    color: #fff;
+    cursor: pointer;
+    padding: 10px;
+    width: 30%;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    font-family: 'Poppins', sans-serif;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+     </style>
+<body>
+    <div class="container">
+        <h2 style="font-family: serif;font-size: xx-large;">Demande d'organisation d'un Événement</h2>
+        <form action="form-prom.php" method="post" enctype="multipart/form-data">
+            
+
+            <label for="nom_org">Nom d'organisation :</label>
+            <input type="text" name="nom_org" required>
+
+            <label for="email_org">Email d'organisation :</label>
+            <input type="email" name="email_org" required>
+
+            <label for="titre">Titre d'evenement :</label>
+            <input type="text" name="titre" required>
+
+            <label for="type">Type d'evenement :</label>
+            <input type="text" name="type" required>
+
+            <label for="description">Description :</label>
+            <textarea name="description" rows="4" required></textarea>
+
+
+            <label for="gsm">Tel :</label>
+            <input type="text" name="gsm"  required>
+
+
+            <label for="date">Date debut :</label>
+            <input type="date" name="datedebut" placeholder="YYYY-MM-DD" required>
+
+            <label for="date">Date fin :</label>
+            <input type="date" name="datefin" placeholder="YYYY-MM-DD" required>
+
+            <label for="date">Date limite :</label>
+            <input type="date" name="deadline" placeholder="YYYY-MM-DD" required>
+
+            <label for="lieu">Lieu :</label>
+            <input type="text" name="lieu" required>
+            
+            <label for="detail">Details:</label>
+            <textarea name="detail" rows="4" required></textarea>
+
+            <label for="fichier">Image :</label>
+            <input type="file" name="fichier" accept="photo/*" required>
+
+            <button type="submit" name="submit">Envoyer la demande</button>
+        </form>
+    </div>
+</body>
+</html>

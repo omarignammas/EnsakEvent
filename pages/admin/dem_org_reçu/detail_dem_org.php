@@ -1,22 +1,8 @@
 <?php 
 include ("../../../includes/connexion.php");
-$eveId = mysqli_real_escape_string($conn, $_GET['id']);
-if (isset($_POST['action'])) {
-    $action = $_POST['action'];
-    $justif = mysqli_real_escape_string($conn, $_POST['justif']); // Assure la sécurité contre les injections SQL
-
-    if ($action == 'Accepter') {
-        $updateCheckedQuery = "UPDATE `event` SET checked = 1 , justif = '$justif' WHERE `id_event` = $eveId ;";
-    } elseif ($action == 'Refuser') {
-        $updateCheckedQuery = "UPDATE `event` SET checked = 0 , justif = '$justif' WHERE `id_event` = $eveId ;";
-    }
-    if(mysqli_query($conn, $updateCheckedQuery)){
-        header('location:..\dem_event_reçu\form-event_reçu.php');
-        exit();
-    } else {
-        echo "Erreur lors de la mise à jour de l'événement : " . mysqli_error($conn);
-    }
-}
+if ($_SERVER["REQUEST_METHOD"] == "POST" and isset($_POST['valider'])) {
+    $mail_id= isset($_POST["mail-id"]) ? $_POST["mail-id"] : "";
+  } 
 ?>
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="en">
@@ -43,6 +29,9 @@ if (isset($_POST['action'])) {
         text-align: center;
     }
 
+#btp1{
+padding: 10px;
+}
  
 
 .container {
@@ -110,11 +99,9 @@ button {
 button:hover {
     background-color: #2980b9;
 }
-
 td{
         vertical-align: middle;
     }
-
     
 </style>
 </head>
@@ -128,13 +115,13 @@ td{
                 <hr class="sidebar-divider my-0">
                 <ul class="navbar-nav text-light" id="accordionSidebar">
                     <li class="nav-item"><a class="nav-link" href="../dashboard"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
-                    <li class="nav-item"><a class="nav-link" href="../dem_org_reçu/form_org_reçu.php"><i class="far fa-clock"></i><span>Demande Organisateur</span></a></li>
+                    <li class="nav-item"><a class="nav-link active" href="form_org_reçu.php"><i class="far fa-clock"></i><span>Demande Organisateur</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="../orgs.php/form_orgs.php"><i class="fas fa-user"></i><span>Organisateur</span></a></li>
-                    <li class="nav-item"><a class="nav-link active" href="form-event_reçu.php"><i class="far fa-clock"></i><span>Demande Evenement</span></a></li>
-                    <li class="nav-item"><a class="nav-link " href="dem-mod-event.php"><i class="far fa-clock"></i><span>Dem Modif Even</span></a></li>
+                    <li class="nav-item"><a class="nav-link " href="../dem_event_reçu/form-event_reçu.php"><i class="far fa-clock"></i><span>Demande Evenement</span></a></li>
+                    <li class="nav-item"><a class="nav-link " href="../dem_event_reçu/dem-mod-event.php"><i class="far fa-clock"></i><span>Dem Modif Even</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="../org_events.php/event_org.php"><i class="fas fa-check"></i><span>Evenement programmées</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="../../../calendrier.php"><i class="fas fa-table"></i><span>Calendrier</span></a></li>
-                    <li class="nav-item"><a class="nav-link" href="login.html"><i class="far fa-user-circle"></i><span>Deconnexion</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="../../../deconnexion.php"><i class="far fa-user-circle"></i><span>Deconnexion</span></a></li>
                 </ul>
                 <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
             </div>
@@ -189,7 +176,7 @@ td{
                             <li class="nav-item dropdown no-arrow">
                                 <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="d-none d-lg-inline me-2 text-gray-600 small">Administration</span><img class="border rounded-circle img-profile" src="../../../assets/img/avatars/ensak.jpg"></a>
                                     <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a class="dropdown-item" href="../dashboard.php"><i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Dashboard</a><a class="dropdown-item" href="#"><i class="fas fa-cogs fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Settings</a>
-                                        <div class="dropdown-divider"></div><a class="dropdown-item" href="../../../deconnexion.php"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout</a>
+                                        <div class="dropdown-divider"></div><a class="dropdown-item" href="../deconnexion.php"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout</a>
                                     </div>
                                 </div>
                             </li>
@@ -206,10 +193,11 @@ td{
                         </div>
                         <div class="card-body">
 
+        
                         <form action="" method="POST" enctype="multipart/form-data">
         <?php
 
-        $sql = "SELECT * FROM event WHERE id_event = $eveId AND (checked = 2 OR checked = 3) ";
+        $sql = "SELECT * FROM demande_org WHERE Mail_Org='$mail_id' ";
         $result = mysqli_query($conn, $sql);
 
         if ($result && mysqli_num_rows($result) > 0) {
@@ -217,50 +205,40 @@ td{
         }
             ?>
                 <label>Mail d'organisation:</label>
-                <input type="text" value="<?php echo $eventDetails['mail']; ?>" readonly>
+                <input type="text" value="<?php echo $eventDetails['Mail_Org']; ?>" readonly>
 
-                <label>Titre d'evenement:</label>
-                <input type="text" value="<?php echo $eventDetails['titre']; ?>" readonly>
+                <label>Nom d'organisation:</label>
+                <input type="text" value="<?php echo $eventDetails['Nom_Org']; ?>" readonly>
 
-                <label>Type d'evenement:</label>
-                <input type="text" value="<?php echo $eventDetails['type']; ?>" readonly>
+                <label>Type d'organisation:</label>
+                <input type="text" value="<?php echo $eventDetails['Type_Org']; ?>" readonly>
 
                 <label>Description:</label>
-                <textarea  name="desc" required readonly><?php echo $eventDetails['descp']; ?></textarea>
+                <textarea  name="desc" required readonly><?php echo $eventDetails['Description']; ?></textarea>
 
-                <label>Lieu:</label>
-                <input type="text" value="<?php echo $eventDetails['local']; ?>" readonly>
+                <label>Nom Responsable:</label>
+                <input type="text" value="<?php echo $eventDetails['Nom_resp']; ?>" readonly>
                 
-                <label>Date debut:</label>
-                <input type="text" value="<?php echo $eventDetails['debut']; ?>" readonly>
+                <label>Prenom Responsable:</label>
+                <input type="text" value="<?php echo $eventDetails['Prenom_resp']; ?>" readonly>
 
-                <label>Date fin:</label>
-                <input type="text" value="<?php echo $eventDetails['debut']; ?>" readonly>
+                <label>Cin du responsable:</label>
+                <input type="text" value="<?php echo $eventDetails['CIN']; ?>" readonly>
 
-                <label>Detail:</label>
-                <textarea  name="detail" required readonly><?php echo $eventDetails['detail']; ?></textarea>
+                <label>GSM:</label>
+                <input type="text" value="<?php echo $eventDetails['GSM']; ?>" readonly>
 
-                <label>justificatif:</label>
-                <textarea  name="justif" placeholder="Justifier votre decision..." required></textarea>
 
-                <div>
-                <?php
-                 $img = $eventDetails['img'];
-                 $imagePath = $img;
-                if (!empty($imagePath)) {
-                 echo "<label>Image:</label>";
-                 echo "<img src='../../organisateur/dem_event/images/$img' alt='Event Image' style='max-width: 100%; height: 200px; margin:5px '>" ;
-                 }
-               ?>        
-                </div>
                 <div class="mb-3"></div>
+</form>
 
-                <div class="d-flex justify-content-center">
-    <button type="submit" name="action" value="Refuser" class='btn btn-success btn-sm ms-2 text-white d-inline-block p-2'>Refuser</button>
-    <button type="submit" name="action" value="Accepter" class='btn btn-success btn-sm ms-2 text-white d-inline-block p-2 '>Accepter</button>
-</div>
+     <div class="" style='margin-left:400px'>
+    <form action="trait_org_reçu.php" methode='GET'>
+    <input type='hidden' name='id' value="<?php echo $eventDetails['Mail_Org']; ?>">
+    <button type="submit" name="action" value="Accepter" class='btn btn-success btn-sm ms-2 text-white d-inline-block p-2 ' id='btp2'>Valider</button>
+    </form>
+    </div>
 
-        </form>
                         
                     </div>
                 </div>
@@ -278,6 +256,3 @@ td{
 </body>
 
 </html>
-
-
-

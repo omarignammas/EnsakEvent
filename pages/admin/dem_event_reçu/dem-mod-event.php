@@ -1,22 +1,5 @@
 <?php 
 include ("../../../includes/connexion.php");
-$eveId = mysqli_real_escape_string($conn, $_GET['id']);
-if (isset($_POST['action'])) {
-    $action = $_POST['action'];
-    $justif = mysqli_real_escape_string($conn, $_POST['justif']); // Assure la sécurité contre les injections SQL
-
-    if ($action == 'Accepter') {
-        $updateCheckedQuery = "UPDATE `event` SET checked = 1 , justif = '$justif' WHERE `id_event` = $eveId ;";
-    } elseif ($action == 'Refuser') {
-        $updateCheckedQuery = "UPDATE `event` SET checked = 0 , justif = '$justif' WHERE `id_event` = $eveId ;";
-    }
-    if(mysqli_query($conn, $updateCheckedQuery)){
-        header('location:..\dem_event_reçu\form-event_reçu.php');
-        exit();
-    } else {
-        echo "Erreur lors de la mise à jour de l'événement : " . mysqli_error($conn);
-    }
-}
 ?>
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="en">
@@ -42,80 +25,9 @@ if (isset($_POST['action'])) {
     thead .card-header th.text-primary {
         text-align: center;
     }
-
- 
-
-.container {
-    padding: 20px;
-    width: 600px;
-    text-align: center;
-    border:3px solid #3498db;
-    border-radius:7px;
-    box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
-
-}
-
-label {
-    display: block;
-    margin: 15px 0 5px;
-    text-align: left;
-    font-family: 'Poppins', sans-serif;  
-    font-weight: bold;
-}
-
-input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    font-family: 'Poppins', sans-serif;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    background: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
-textarea {
-    width: 100%;
-    padding: 20px;
-    margin-bottom: 15px;
-    font-family: 'Poppins', sans-serif;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    background: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
-.input{
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    background: rgba(255, 255, 255, 0.2);
-}
-
-button {
-    background-color: #3498db;
-    margin-left:6%;
-    color: #fff;
-    cursor: pointer;
-    padding: 10px;
-    width: 25%;
-    border: none;
-    border-radius: 4px;
-    font-weight: bold;
-    font-family: 'Poppins', sans-serif;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-
-}
-
-button:hover {
-    background-color: #2980b9;
-}
-
-td{
+    td{
         vertical-align: middle;
     }
-
-    
 </style>
 </head>
 <body id="page-top">
@@ -127,14 +39,15 @@ td{
                 </a>
                 <hr class="sidebar-divider my-0">
                 <ul class="navbar-nav text-light" id="accordionSidebar">
-                    <li class="nav-item"><a class="nav-link" href="../dashboard"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="../dashboard.php"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="../dem_org_reçu/form_org_reçu.php"><i class="far fa-clock"></i><span>Demande Organisateur</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="../orgs.php/form_orgs.php"><i class="fas fa-user"></i><span>Organisateur</span></a></li>
-                    <li class="nav-item"><a class="nav-link active" href="form-event_reçu.php"><i class="far fa-clock"></i><span>Demande Evenement</span></a></li>
-                    <li class="nav-item"><a class="nav-link " href="dem-mod-event.php"><i class="far fa-clock"></i><span>Dem Modif Even</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="form-event_reçu.php"><i class="far fa-clock"></i><span>Demande Evenement</span></a></li>
+                    <li class="nav-item"><a class="nav-link active" href="dem-mod-event.php"><i class="far fa-clock"></i><span>Dem Modif Even</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="../org_events.php/event_org.php"><i class="fas fa-check"></i><span>Evenement programmées</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="../../../calendrier.php"><i class="fas fa-table"></i><span>Calendrier</span></a></li>
-                    <li class="nav-item"><a class="nav-link" href="login.html"><i class="far fa-user-circle"></i><span>Deconnexion</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="../../../deconnexion.php"><i class="far fa-user-circle"></i><span>Deconnexion</span></a></li>
+
                 </ul>
                 <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
             </div>
@@ -189,7 +102,7 @@ td{
                             <li class="nav-item dropdown no-arrow">
                                 <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="d-none d-lg-inline me-2 text-gray-600 small">Administration</span><img class="border rounded-circle img-profile" src="../../../assets/img/avatars/ensak.jpg"></a>
                                     <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a class="dropdown-item" href="../dashboard.php"><i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Dashboard</a><a class="dropdown-item" href="#"><i class="fas fa-cogs fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Settings</a>
-                                        <div class="dropdown-divider"></div><a class="dropdown-item" href="../../../deconnexion.php"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout</a>
+                                        <div class="dropdown-divider"></div><a class="dropdown-item" href="../deconnexion.php"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout</a>
                                     </div>
                                 </div>
                             </li>
@@ -202,66 +115,87 @@ td{
                     <div class="card shadow">
                         <div class="card-header py-3">
                             <p class="text-primary m-0 fw-bold">Demande Evenement</p>
-                            
                         </div>
                         <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 text-nowrap">
+                                    <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label class="form-label">Show&nbsp;<select class="d-inline-block form-select form-select-sm">
+                                                <option value="10" selected="">10</option>
+                                                <option value="25">25</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                            </select>&nbsp;</label></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="text-md-end dataTables_filter" id="dataTable_filter"><label class="form-label"><input type="search" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Search"></label></div>
+                                </div>
+                            </div>
+                            <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                                <table class="table my-0" id="dataTable">
+                                <thead>
+                                    <tr class="card-header py-3">
+                                    <th class="text-primary m-0 fw-bold"></th>
+                                    <th class="text-primary m-0 fw-bold">Email</th>
+                                    <th class="text-primary m-0 fw-bold">Titre</th>
+                                    <th class="text-primary m-0 fw-bold">Type</th>
+                                    <th class="text-primary m-0 fw-bold">Date</th>
+                                    <th class="text-primary m-0 fw-bold">local</th>
+                                    <th class="text-primary m-0 fw-bold">gsm</th>
+                                    <th class="text-primary m-0 fw-bold">reponse</th>
+                                    </tr>
+                                </thead>
+                                    <tbody>
+            <?php
+$sql = "SELECT * FROM event WHERE checked = 3";
+$result = mysqli_query($conn, $sql);
 
-                        <form action="" method="POST" enctype="multipart/form-data">
-        <?php
+if (mysqli_num_rows($result) > 0) {
+    while ($row= mysqli_fetch_assoc($result)) {
+        $_SESSION['Mail_Org']=$row['mail'];
+        $img=$row['img'];
+        echo "<tr>";
+        echo "<td><img class='rounded-circle me-2' width='50' height='50' src='../../organisateur/dem_event/images/$img'></td>";
+        echo "<td class='text-center'>{$row['mail']}</td>";
+        echo "<td class='text-center'>{$row['titre']}</td>";
+        echo "<td class='text-center'>{$row['type']}</td>";
+        echo "<td class='text-center'>{$row['debut']}</td>";
+        echo "<td class='text-center'>{$row['local']}</td>";
+        echo "<td class='text-center'>{$row['gsm']}</td>";
+        echo "<td>";
+        echo "<form action='trait-prom_reçu.php' method='GET'>";
+        echo "<input type='hidden' name='id' value='{$row['id_event']}'>";
+        //echo "<button type='submit' name='validation' class='btn btn-success btn-sm ms-2'><a href='trait-prom_reçu.php' class='text-white text-decoration-none d-inline-block p-2' >Voir en d&eacutetails</a></button>";
+        echo "<button type='submit' class='btn btn-success btn-sm ms-2 text-white d-inline-block p-2' name='valider'style='padding:10px;Width:140px;margin:5%;'>Voir en detailles</button>";
+        echo "</form>";
+        echo "</td>";        
+        echo "</tr>";
+    }
+} else {
+    echo "<tr><td colspan='4'>No registration requests found.</td></tr>";
+}
+?>
 
-        $sql = "SELECT * FROM event WHERE id_event = $eveId AND (checked = 2 OR checked = 3) ";
-        $result = mysqli_query($conn, $sql);
+                </tbody>
+                                </table>
+                            </div>
 
-        if ($result && mysqli_num_rows($result) > 0) {
-            $eventDetails = mysqli_fetch_assoc($result);
-        }
-            ?>
-                <label>Mail d'organisation:</label>
-                <input type="text" value="<?php echo $eventDetails['mail']; ?>" readonly>
-
-                <label>Titre d'evenement:</label>
-                <input type="text" value="<?php echo $eventDetails['titre']; ?>" readonly>
-
-                <label>Type d'evenement:</label>
-                <input type="text" value="<?php echo $eventDetails['type']; ?>" readonly>
-
-                <label>Description:</label>
-                <textarea  name="desc" required readonly><?php echo $eventDetails['descp']; ?></textarea>
-
-                <label>Lieu:</label>
-                <input type="text" value="<?php echo $eventDetails['local']; ?>" readonly>
-                
-                <label>Date debut:</label>
-                <input type="text" value="<?php echo $eventDetails['debut']; ?>" readonly>
-
-                <label>Date fin:</label>
-                <input type="text" value="<?php echo $eventDetails['debut']; ?>" readonly>
-
-                <label>Detail:</label>
-                <textarea  name="detail" required readonly><?php echo $eventDetails['detail']; ?></textarea>
-
-                <label>justificatif:</label>
-                <textarea  name="justif" placeholder="Justifier votre decision..." required></textarea>
-
-                <div>
-                <?php
-                 $img = $eventDetails['img'];
-                 $imagePath = $img;
-                if (!empty($imagePath)) {
-                 echo "<label>Image:</label>";
-                 echo "<img src='../../organisateur/dem_event/images/$img' alt='Event Image' style='max-width: 100%; height: 200px; margin:5px '>" ;
-                 }
-               ?>        
-                </div>
-                <div class="mb-3"></div>
-
-                <div class="d-flex justify-content-center">
-    <button type="submit" name="action" value="Refuser" class='btn btn-success btn-sm ms-2 text-white d-inline-block p-2'>Refuser</button>
-    <button type="submit" name="action" value="Accepter" class='btn btn-success btn-sm ms-2 text-white d-inline-block p-2 '>Accepter</button>
-</div>
-
-        </form>
-                        
+                            <div class="row">
+                                <div class="col-md-6 align-self-center">
+                                    <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Showing 1 to 10 of 27</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
+                                        <ul class="pagination">
+                                            <li class="page-item disabled"><a class="page-link" aria-label="Previous" href="#"><span aria-hidden="true">«</span></a></li>
+                                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                            <li class="page-item"><a class="page-link" aria-label="Next" href="#"><span aria-hidden="true">»</span></a></li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

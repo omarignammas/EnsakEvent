@@ -2,7 +2,9 @@
 include ("../../../includes/connexion.php");
 
 
-  $id = isset($_POST["id"]) ? $_POST["id"] : "";
+  $id = isset($_GET["id"]) ? $_GET["id"] : "";
+
+
   if ($_SERVER["REQUEST_METHOD"] == "POST" and isset($_POST['envoyer'])) {
     // Récupérer les données du formulaire
     $email =$_POST["email"];
@@ -70,6 +72,9 @@ include ("../../../includes/connexion.php");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>compte Envoyée</title>
+    <link rel="stylesheet" href="../../../assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
+    <link rel="stylesheet" href="../../../assets/fonts/fontawesome-all.min.css">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -160,6 +165,12 @@ include ("../../../includes/connexion.php");
         .home-link2:hover {
             background-color: #2980b9;
         }
+        .custom-width-btn {
+        width: 344px; /* Ajustez la largeur selon vos besoins */
+    }
+    .textsize{
+        font-size: 16px;
+    }
     </style>
 </head>
 <body>
@@ -172,9 +183,10 @@ include ("../../../includes/connexion.php");
         <p>Entrer un message a l'organisation :</p>
         <label for="message"></label>
         <input type="text" name="message" placeholder="Tapez votre message">
-        <button type="submit" name="envoyer"  class="home-link1">Envoyer Le compte organisateur</button> 
+        <button type="submit" name="envoyer" class='textsize btn btn-success btn-sm  text-white d-inline-block p-2 mb-2 custom-width-btn'>Envoyer Le compte organisateur</button>
 
-        <a href="..\dem_org_reçu\form_org_reçu.php" class="home-link2">Retour à Espace d'administration</a>
+<a href="..\dem_org_reçu\form_org_reçu.php" class='textsize btn btn-success btn-sm text-white d-inline-block p-2 custom-width-btn'>Retour à Espace d'administration</a>
+
     </div>
     </form>
 </body>

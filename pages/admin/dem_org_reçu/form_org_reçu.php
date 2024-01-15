@@ -26,6 +26,9 @@ include ("../../../includes/connexion.php");
     thead .card-header th.text-primary {
         text-align: center;
     }
+    td{
+        vertical-align: middle;
+    }
 </style>
 </head>
 <body id="page-top">
@@ -37,12 +40,14 @@ include ("../../../includes/connexion.php");
                 </a>
                 <hr class="sidebar-divider my-0">
                 <ul class="navbar-nav text-light" id="accordionSidebar">
-                    <li class="nav-item"><a class="nav-link" href="index.html"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
-                    <li class="nav-item"><a class="nav-link" href="profile.html"><i class="fas fa-user"></i><span>Profile</span></a></li>
-                    <li class="nav-item"><a class="nav-link active" href="form_org_reçu.php"><i class="fas fa-table"></i><span>Demande Organisateur</span></a></li>
-                    <li class="nav-item"><a class="nav-link" href="../dem_event_reçu/form-event_reçu.php"><i class="fas fa-table"></i><span>Demande Evenement</span></a></li>
-                    <li class="nav-item"><a class="nav-link" href="login.html"><i class="far fa-user-circle"></i><span>Login</span></a></li>
-                    <li class="nav-item"><a class="nav-link" href="register.html"><i class="fas fa-user-circle"></i><span>Register</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="../dashboard.php"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                    <li class="nav-item"><a class="nav-link active" href="form_org_reçu.php"><i class="far fa-clock"></i><span>Demande Organisateur</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="../orgs.php/form_orgs.php"><i class="fas fa-user"></i><span>Organisateur</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="../dem_event_reçu/form-event_reçu.php"><i class="far fa-clock"></i><span>Demande Evenement</span></a></li>
+                    <li class="nav-item"><a class="nav-link " href="../dem_event_reçu/dem-mod-event.php"><i class="far fa-clock"></i><span>Dem Modif Even</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="../org_events.php/event_org.php"><i class="fas fa-check"></i><span>Evenement programmées</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="../../../calendrier.php"><i class="fas fa-table"></i><span>Calendrier</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="../../../deconnexion.php"><i class="far fa-user-circle"></i><span>Deconnexion</span></a></li>
                 </ul>
                 <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
             </div>
@@ -92,51 +97,12 @@ include ("../../../includes/connexion.php");
                                     </div>
                                 </div>
                             </li>
-                            <li class="nav-item dropdown no-arrow mx-1">
-                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="badge bg-danger badge-counter">7</span><i class="fas fa-envelope fa-fw"></i></a>
-                                    <div class="dropdown-menu dropdown-menu-end dropdown-list animated--grow-in">
-                                        <h6 class="dropdown-header">alerts center</h6><a class="dropdown-item d-flex align-items-center" href="#">
-                                            <div class="dropdown-list-image me-3"><img class="rounded-circle" src="assets/img/avatars/avatar4.jpeg">
-                                                <div class="bg-success status-indicator"></div>
-                                            </div>
-                                            <div class="fw-bold">
-                                                <div class="text-truncate"><span>Hi there! I am wondering if you can help me with a problem I've been having.</span></div>
-                                                <p class="small text-gray-500 mb-0">Emily Fowler - 58m</p>
-                                            </div>
-                                        </a><a class="dropdown-item d-flex align-items-center" href="#">
-                                            <div class="dropdown-list-image me-3"><img class="rounded-circle" src="assets/img/avatars/avatar2.jpeg">
-                                                <div class="status-indicator"></div>
-                                            </div>
-                                            <div class="fw-bold">
-                                                <div class="text-truncate"><span>I have the photos that you ordered last month!</span></div>
-                                                <p class="small text-gray-500 mb-0">Jae Chun - 1d</p>
-                                            </div>
-                                        </a><a class="dropdown-item d-flex align-items-center" href="#">
-                                            <div class="dropdown-list-image me-3"><img class="rounded-circle" src="assets/img/avatars/avatar3.jpeg">
-                                                <div class="bg-warning status-indicator"></div>
-                                            </div>
-                                            <div class="fw-bold">
-                                                <div class="text-truncate"><span>Last month's report looks great, I am very happy with the progress so far, keep up the good work!</span></div>
-                                                <p class="small text-gray-500 mb-0">Morgan Alvarez - 2d</p>
-                                            </div>
-                                        </a><a class="dropdown-item d-flex align-items-center" href="#">
-                                            <div class="dropdown-list-image me-3"><img class="rounded-circle" src="assets/img/avatars/avatar5.jpeg">
-                                                <div class="bg-success status-indicator"></div>
-                                            </div>
-                                            <div class="fw-bold">
-                                                <div class="text-truncate"><span>Am I a good boy? The reason I ask is because someone told me that people say this to all dogs, even if they aren't good...</span></div>
-                                                <p class="small text-gray-500 mb-0">Chicken the Dog · 2w</p>
-                                            </div>
-                                        </a><a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
-                                    </div>
-                                </div>
-                                <div class="shadow dropdown-list dropdown-menu dropdown-menu-end" aria-labelledby="alertsDropdown"></div>
-                            </li>
+            
                             <div class="d-none d-sm-block topbar-divider"></div>
                             <li class="nav-item dropdown no-arrow">
-                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="d-none d-lg-inline me-2 text-gray-600 small">Valerie Luna</span><img class="border rounded-circle img-profile" src="assets/img/avatars/avatar1.jpeg"></a>
-                                    <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a class="dropdown-item" href="#"><i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Profile</a><a class="dropdown-item" href="#"><i class="fas fa-cogs fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Settings</a><a class="dropdown-item" href="#"><i class="fas fa-list fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Activity log</a>
-                                        <div class="dropdown-divider"></div><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout</a>
+                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="d-none d-lg-inline me-2 text-gray-600 small">Administration</span><img class="border rounded-circle img-profile" src="../../../assets/img/avatars/ensak.jpg"></a>
+                                    <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a class="dropdown-item" href="../dashboard.php"><i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Dashboard</a><a class="dropdown-item" href="#"><i class="fas fa-cogs fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Settings</a>
+                                        <div class="dropdown-divider"></div><a class="dropdown-item" href="../deconnexion.php"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout</a>
                                     </div>
                                 </div>
                             </li>
@@ -168,13 +134,9 @@ include ("../../../includes/connexion.php");
                                 <table class="table my-0" id="dataTable">
                                 <thead>
                                     <tr class="card-header py-3">
-                                    <th class="text-primary m-0 fw-bold">Email</th>
                                     <th class="text-primary m-0 fw-bold">Organization Name</th>
                                     <th class="text-primary m-0 fw-bold">Type</th>
-                                    <th class="text-primary m-0 fw-bold">Description</th>
                                     <th class="text-primary m-0 fw-bold">Nom responsable</th>
-                                    <th class="text-primary m-0 fw-bold">Prenom responsable</th>
-                                    <th class="text-primary m-0 fw-bold">CIN responsable</th>
                                     <th class="text-primary m-0 fw-bold">Acceptation des demandes</th>
                                      </tr>
                                 </thead>
@@ -187,17 +149,15 @@ if (mysqli_num_rows($result) > 0) {
     while ($row = mysqli_fetch_assoc($result)) {
         $_SESSION['Mail_Org'] = $row['Mail_Org'];
         echo "<tr>";
-        echo "<td>{$row['Mail_Org']}</td>";
-        echo "<td>{$row['Nom_Org']}</td>";
-        echo "<td>{$row['Type_Org']}</td>";
-        echo "<td>{$row['Description']}</td>";
-        echo "<td>{$row['Nom_resp']}</td>";
-        echo "<td>{$row['Prenom_resp']}</td>";
-        echo "<td>{$row['CIN']}</td>";
+        echo "<td class='text-center'>{$row['Nom_Org']}</td>";
+        echo "<td class='text-center'>{$row['Type_Org']}</td>";
+        echo "<td class='text-center'>{$row['Nom_resp']}</td>";
         echo "<td>";
-        echo "<form action='trait_org_reçu.php' method='POST'>";
-        echo "<input type='hidden' name='id' value='{$row['Mail_Org']}'>";
-        echo "<button type='submit' name='valider' class='btn btn-success btn-sm ms-2 d-inline-block p-2'>Valider</button>";
+        echo "<form action='detail_dem_org.php' method='POST'>";
+        echo "<input type='hidden' name='mail-id' value='{$row['Mail_Org']}'>";
+        echo "<div class='text-center'>";
+        echo "<button type='submit' name='valider' class='btn btn-success btn-sm ms-2 d-inline-block text-white p-2'>Voir détail</button>";
+        echo "</div>";
         echo "</form>";
         echo "</td>";
         echo "</tr>";
@@ -233,7 +193,7 @@ if (mysqli_num_rows($result) > 0) {
             </div>
             <footer class="bg-white sticky-footer">
                 <div class="container my-auto">
-                    <div class="text-center my-auto copyright"><span>Copyright © Brand 2024</span></div>
+                    <div class="text-center my-auto copyright"><span>Copyright © Ensak_Event 2024</span></div>
                 </div>
             </footer>
         </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>

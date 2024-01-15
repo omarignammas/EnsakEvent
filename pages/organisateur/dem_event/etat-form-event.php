@@ -1,90 +1,5 @@
 <?php 
 include ("../../../includes/connexion.php");
-$cd=0;
-
-if(($_SERVER["REQUEST_METHOD"]=="POST")){
-    if(isset($_POST['submit'])){
-        echo'after condition';
-        // Récupérer les données du formulaire
-        $nom_org = mysqli_real_escape_string($conn, $_SESSION['nom_org']);
-        $description = mysqli_real_escape_string($conn, $_POST['description']);
-        $titre = mysqli_real_escape_string($conn, $_POST['titre']);
-        $type = mysqli_real_escape_string($conn, $_POST['type']);
-        $gsm = mysqli_real_escape_string($conn, $_POST['gsm']);
-        $datedebut = mysqli_real_escape_string($conn, $_POST['datedebut']);
-        $datefin = mysqli_real_escape_string($conn, $_POST['datefin']);
-        $deadline = mysqli_real_escape_string($conn, $_POST['deadline']);
-        $detail = mysqli_real_escape_string($conn, $_POST['detail']);
-        $lieu = mysqli_real_escape_string($conn, $_POST['local']);
-
-    // Télécharger l'image
-        if(isset($_FILES['fichier']) and $_FILES['fichier']['error']==0){
-            $dossier='images/';
-            $temp_name=$_FILES['fichier']['tmp_name'];
-            if(!is_uploaded_file($temp_name)){
-                 exit("le fichier est introuvable!");
-            }
-            if($_FILES['fichier']['size']>=10000000){
-                exit("Erreur,fichier stockage ");
-            }
-            $infosfichier=pathinfo($_FILES['fichier']['name']);
-            $extension_upload=$infosfichier['extension'];
-
-            $extension_upload=strtolower($extension_upload);
-            $extension_autorities=array('png','jpeg','jpg');
-
-            if(!in_array($extension_upload,$extension_autorities)){
-                exit("Erreur,Veuillez inserer une image svp (extentions autorisee png)");
-            }
-            $nom_photo=$titre.".".$extension_upload;
-            if(!move_uploaded_file($temp_name,$dossier.$nom_photo)){
-                exit("<h2>Probleme dans telechargement de l'image,Ressayer!</h2>");
-            }
-
-        }
-// Insérer les données dans la base de données
-    $login=$_SESSION['login'];
-    $sql= "INSERT INTO `event`( `titre`, `type`, `detail`, `debut`, `fin`, `local`, `img`, `descp`, `deadline`, `gsm`, `checked`, `nom_org`, `mail`) VALUES ('$titre','$type','$detail','$datedebut','$datefin','$lieu','$nom_photo','$description','$deadline','$gsm','2','$nom_org','$login')";
-    $result=mysqli_query($conn, $sql);
-    if ($result){
-        header("Location: etat-form-event.php");
-        exit();
-    } else {
-        echo "Erreur : " . $sql . "<br>" . $conn->error;
-    }
-}  } 
-if(isset($_GET['modifier']) && $_GET['modifier'] == 'True'){
-    $cd=1;
-    $id=$_GET['id'];
-    $_SESSION['id']=$id; 
-    $query="SELECT `id_event`, `titre`, `type`, `detail`, `debut`, `fin`, `local`, `img`, `descp`, `deadline`, `mail`, `gsm`, `checked`, `nom_org`, `justif` FROM `event` WHERE `id_event`='$id'";
-    $result=mysqli_query($conn,$query);
-    if ($result!=null){
-        $row=mysqli_fetch_assoc($result);
-        $titre=$row['titre'];
-        $type=$row['type'];
-        $detail=$row['detail'];
-        $debut=$row['debut'];
-        $debutFormatted = (isset($cd) && $cd == 1) ? (new DateTime($debut))->format('Y-m-d H:i:s') : '';
-
-        $fin=$row['fin'];
-        $finFormatted = (isset($cd) && $cd == 1) ? (new DateTime($fin))->format('Y-m-d H:i:s') : '';
-        $local=$row['local'];
-        $descp=$row['descp'];
-        $deadline=$row['deadline'];
-        $deadlineFormatted = (isset($cd) && $cd == 1) ? (new DateTime($deadline))->format('Y-m-d H:i:s') : '';
-        $mail=$row['mail'];
-        $gsm=$row['gsm'];
-        $nom_org=$row['nom_org'];
-        $justif=$row['justif'];
-    }
-}
-if ($cd==1){
-    $act="update-event.php";
-}else if($cd==0){
-    $act="form-prom.php";
-}
-//$conn->close();
 ?>
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="en">
@@ -110,81 +25,13 @@ if ($cd==1){
     thead .card-header th.text-primary {
         text-align: center;
     }
-
-#btp1{
-padding: 10px;
-}
- 
-
-.container {
-    padding: 20px;
-    width: 600px;
-    text-align: center;
-    border:3px solid #3498db;
-    border-radius:7px;
-    box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
-
-}
-
-label {
-    display: block;
-    margin: 15px 0 5px;
-    text-align: left;
-    font-family: 'Poppins', sans-serif;  
-    font-weight: bold;
-}
-
-input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    font-family: 'Poppins', sans-serif;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    background: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
-textarea {
-    width: 100%;
-    padding: 20px;
-    margin-bottom: 15px;
-    font-family: 'Poppins', sans-serif;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    background: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
-.input{
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    background: rgba(255, 255, 255, 0.2);
-}
-
-button {
-    background-color: #3498db;
-    margin-left:6%;
-    color: #fff;
-    cursor: pointer;
-    padding: 10px;
-    width: 25%;
-    border: none;
-    border-radius: 4px;
-    font-weight: bold;
-    font-family: 'Poppins', sans-serif;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-
-}
-
-button:hover {
-    background-color: #2980b9;
-}
-td{
+    td{
         vertical-align: middle;
     }
-    
+    .limited-width {
+        max-width: 200px; /* Ajustez la largeur maximale selon vos besoins */
+        word-wrap: break-word; /* Assurez-vous que les longs mots peuvent être coupés à la fin de la ligne */
+    }
 </style>
 </head>
 <body id="page-top">
@@ -196,9 +43,9 @@ td{
                 </a>
                 <hr class="sidebar-divider my-0">
                 <ul class="navbar-nav text-light" id="accordionSidebar">
-                    <li class="nav-item"><a class="nav-link" href="../dashebord.php"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
-                    <li class="nav-item"><a class="nav-link active" href="form-prom.php"><i class="far fa-clock"></i><span>Créer Evenement</span></a></li>
-                    <li class="nav-item"><a class="nav-link" href="etat-form-event.php"><i class="fas fa-clock"></i><span>Etat demandes</span></a></li>
+                   <li class="nav-item"><a class="nav-link" href="../dashebord.php"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                    <li class="nav-item"><a class="nav-link " href="form-prom.php"><i class="far fa-clock"></i><span>Créer Evenement</span></a></li>
+                    <li class="nav-item"><a class="nav-link active" href="etat-form-event.php"><i class="fas fa-clock"></i><span>Etat demandes</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="../../../calendrier-org.php"><i class="fas fa-table"></i><span>Calendrier</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="../../../deconnexion.php"><i class="far fa-user-circle"></i><span>Deconnexion</span></a></li>
                 </ul>
@@ -303,54 +150,73 @@ td{
                 </nav>
                 <!-- Tableau init-->
                 <div class="container-fluid">
-                    <h3 class="text-dark mb-4">Espace Organisateur</h3>
+                    <h3 class="text-dark mb-4">Espace Organisateur </h3>
                     <div class="card shadow">
                         <div class="card-header py-3">
                             <p class="text-primary m-0 fw-bold">Demande Evenement</p>
-                            
                         </div>
                         <div class="card-body">
- 
-                        <form  action=<?= $act ?> method="POST" enctype="multipart/form-data">
-
-        
-
-<label for="titre">Titre d'evenement :</label>
-<input type="text" name="titre" id="titre" required value="<?php echo (isset($cd) && $cd==1) ? $titre : ''; ?>">
-
-<label for="type">Type d'evenement :</label>
-<input type="text" name="type" id="type" required value="<?php echo (isset($cd) && $cd==1) ? $type : ''; ?>">
-
-<label for="description">Description :</label>
-<textarea name="description" id="description" rows="4" required ><?php echo (isset($cd) && $cd==1) ? $descp : ''; ?></textarea>
-
-
-<label for="gsm">Tel :</label>
-<input type="text" name="gsm" id="gsm"  required value="<?php echo (isset($cd) && $cd==1) ? $gsm : ''; ?>">
-
-
-<label for="datedebut">Date debut :</label>
-<input type="datetime-local" name="datedebut" id="datedebut" required value="<?php echo $debutFormatted; ?>">
-
-<label for="datefin">Date fin :</label>
-<input type="datetime-local" name="datefin" id="datefin" required value="<?php echo $finFormatted; ?>">
-
-<label for="deadline">Date limite :</label>
-<input type="datetime-local" name="deadline" id="deadline" required value="<?php echo $deadlineFormatted; ?>">
-
-
-<label for="local">Lieu :</label>
-<input type="text" name="local" id="local" required value="<?php echo (isset($cd) && $cd==1) ? $local : ''; ?>">
-
-<label for="detail">Details:</label>
-<textarea name="detail" rows="4" id="detail" required ><?php echo (isset($cd) && $cd==1) ? $detail : ''; ?></textarea>
-
-<label for="fichier">Image :</label>
-<input type="file" name="fichier" id="fichier" accept="photo/*" value="<?=$nom_photo ?>" required>
-<div class='text-center '>
-<button type="submit" name="submit" class='btn btn-success btn-sm ms-2 text-white d-inline-block p-2 '>Envoyer la demande</button>
-</div>
-</form>      
+                        <div class="row">
+                                <div class="col-md-6 text-nowrap">
+                                    <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label class="form-label">Show&nbsp;<select class="d-inline-block form-select form-select-sm">
+                                                <option value="10" selected="">10</option>
+                                                <option value="25">25</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                            </select>&nbsp;</label></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="text-md-end dataTables_filter" id="dataTable_filter"><label class="form-label"><input type="search" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Search"></label></div>
+                                </div>
+                            </div>
+                            <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                        <table class="table my-0" id="dataTable">
+        <thead>
+            <tr class="card-header py-3">
+                <th class="text-primary m-0 fw-bold">Titre d'evenement</th>
+                <th class="text-primary m-0 fw-bold">Type d'evenement</th>
+                <th class="text-primary m-0 fw-bold">deadline</th>
+                <th class="text-primary m-0 fw-bold">Local</th>
+                <th colspan=2 class="text-primary m-0 fw-bold">Justificatif</th>
+                <th colspan=2  id='etat'class="text-primary m-0 fw-bold">Etat</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            $login=$_SESSION['login'];
+            $sql = "SELECT * FROM event WHERE `mail`='$login'";
+            $result = mysqli_query($conn,$sql);            
+            while ($row = mysqli_fetch_assoc($result)) {
+                $_SESSION['nom_org']=$row['nom_org'];
+                $_SESSION['titre']=$row['titre'];
+                $_SESSION['type']=$row['type'];
+                $_SESSION['descp']=$row['descp'];
+                $_SESSION['deadline']=$row['deadline'];
+                $_SESSION['local']=$row['local'];
+                $_SESSION['debut']=$row['debut'];
+                $_SESSION['fin']=$row['fin'];
+                $_SESSION['detail']=$row['detail'];
+                $_SESSION['gsm']=$row['gsm'];
+                $etat = ($row['checked'] == 0) ? 'Refusee' : (($row['checked'] == 1) ? 'Acceptee' : 'En cours de traitement');
+                echo "<tr>";
+                echo "<td class='text-center '>{$row['titre']}</td>";
+                echo "<td class='text-center '>{$row['type']}</td>";
+                echo "<td class='text-center '>{$row['deadline']}</td>";
+                echo "<td class='text-center '>{$row['local']}</td>";
+                echo "<td colspan=2 class='text-center limited-width'>{$row['justif']}</td>";
+                echo "<td>{$etat}</td>";
+                if($row['checked']!=1){
+                    echo "<td colspan=2><a href='form-prom.php?modifier=True&id={$row['id_event']}'><button class='btn btn-success btn-sm ms-2 text-white d-inline-block p-2'>Modifier</button></a></td></tr>";
+                }else{
+                    echo "<td><a href='form-prom.php?modifier=True&id={$row['id_event']}'><button class='btn btn-success btn-sm ms-2 text-white d-inline-block p-2'>Modifier</button></a></td>";
+                    echo "<td><form action='../statistique.php' method='GET'><button name='id-event' type='submit' value='{$row['id_event']}' class='btn btn-success btn-sm ms-2 text-white d-inline-block p-2'>Détails</button></form></td></tr>";
+                }  
+            }
+            ?>
+        </tbody>
+    </table>
+                  
                     </div>
                 </div>
             </div>

@@ -1,5 +1,7 @@
 <?php 
 include ("../../../includes/connexion.php");
+$mail_org=$_SESSION['login'];
+$id_event = $_GET['id'];
 ?>
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="en">
@@ -7,7 +9,8 @@ include ("../../../includes/connexion.php");
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Table - Brand</title>
+    <title>les Participants</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="stylesheet" href="../../../assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
     <link rel="stylesheet" href="../../../assets/fonts/fontawesome-all.min.css">
@@ -28,31 +31,33 @@ include ("../../../includes/connexion.php");
     td{
         vertical-align: middle;
     }
+
+    .main-content-container {
+        max-width: calc(100% - 210px); /* Ajustez la largeur selon vos besoins */
+        margin-left: 210px;/* Largeur de votre barre de navigation */
+    }
 </style>
 </head>
 <body id="page-top">
     <div id="wrapper">
-        <nav class="navbar align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0 navbar-dark">
+        <nav class="navbar fixed-top align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0 navbar-dark">
             <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
                     <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-laugh-wink"></i></div>
                     <div class="sidebar-brand-text mx-3"><span>Ensak Event</span></div>
                 </a>
                 <hr class="sidebar-divider my-0">
                 <ul class="navbar-nav text-light" id="accordionSidebar">
-                    <li class="nav-item"><a class="nav-link" href="../dashboard.php"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
-                    <li class="nav-item"><a class="nav-link" href="../dem_org_reçu/form_org_reçu.php"><i class="far fa-clock"></i><span>Demande Organisateur</span></a></li>
-                    <li class="nav-item"><a class="nav-link" href="../orgs.php/form_orgs.php"><i class="fas fa-user"></i><span>Organisateur</span></a></li>
-                    <li class="nav-item"><a class="nav-link" href="form-event_reçu.php"><i class="far fa-clock"></i><span>Demande Evenement</span></a></li>
-                    <li class="nav-item"><a class="nav-link active" href="dem-mod-event.php"><i class="far fa-clock"></i><span>Dem Modif Even</span></a></li>
-                    <li class="nav-item"><a class="nav-link" href="../org_events.php/event_org.php"><i class="fas fa-check"></i><span>Evenement programmées</span></a></li>
-                    <li class="nav-item"><a class="nav-link" href="../../../calendrier.php"><i class="fas fa-table"></i><span>Calendrier</span></a></li>
+                <li class="nav-item"><a class="nav-link " href="../dashebord.php"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                    <li class="nav-item"><a class="nav-link " href="../dem_event/form-prom.php"><i class="far fa-clock"></i><span>Créer Evenement</span></a></li>
+                    <li class="nav-item"><a class="nav-link " href="../dem_event/etat-form-event.php"><i class="fas fa-clock"></i><span>Etat demandes</span></a></li>
+                    <li class="nav-item"><a class="nav-link active " href=""><i class="fas fa-clock"></i><span>Participants</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="../../../calendrier-org.php"><i class="fas fa-table"></i><span>Calendrier</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="../../../deconnexion.php"><i class="far fa-user-circle"></i><span>Deconnexion</span></a></li>
-
                 </ul>
                 <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
             </div>
         </nav>
-        <div class="d-flex flex-column" id="content-wrapper">
+        <div class="d-flex flex-column main-content-container" id="content-wrapper">
             <div id="content">
                 <nav class="navbar navbar-expand bg-white shadow mb-4 topbar static-top navbar-light">
                     <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
@@ -100,7 +105,7 @@ include ("../../../includes/connexion.php");
             
                             <div class="d-none d-sm-block topbar-divider"></div>
                             <li class="nav-item dropdown no-arrow">
-                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="d-none d-lg-inline me-2 text-gray-600 small">Administration</span><img class="border rounded-circle img-profile" src="../../../assets/img/avatars/ensak.jpg"></a>
+                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="d-none d-lg-inline me-2 text-gray-600 small"><?php echo $_SESSION['nom_org']; ?></span>
                                     <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a class="dropdown-item" href="../dashboard.php"><i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Dashboard</a><a class="dropdown-item" href="#"><i class="fas fa-cogs fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Settings</a>
                                         <div class="dropdown-divider"></div><a class="dropdown-item" href="../deconnexion.php"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout</a>
                                     </div>
@@ -111,10 +116,10 @@ include ("../../../includes/connexion.php");
                 </nav>
                 <!-- Tableau init-->
                 <div class="container-fluid">
-                    <h3 class="text-dark mb-4">Espace Admin </h3>
+                    <h3 class="text-dark mb-4">Espace organisateur </h3>
                     <div class="card shadow">
                         <div class="card-header py-3">
-                            <p class="text-primary m-0 fw-bold">Demande Evenement</p>
+                            <p class="text-primary m-0 fw-bold">Les participants</p>
                         </div>
                         <div class="card-body">
                             <div class="row">
@@ -134,44 +139,34 @@ include ("../../../includes/connexion.php");
                                 <table class="table my-0" id="dataTable">
                                 <thead>
                                     <tr class="card-header py-3">
-                                    <th class="text-primary m-0 fw-bold"></th>
                                     <th class="text-primary m-0 fw-bold">Email</th>
-                                    <th class="text-primary m-0 fw-bold">Titre</th>
-                                    <th class="text-primary m-0 fw-bold">Type</th>
-                                    <th class="text-primary m-0 fw-bold">Date</th>
-                                    <th class="text-primary m-0 fw-bold">local</th>
-                                    <th class="text-primary m-0 fw-bold">gsm</th>
-                                    <th class="text-primary m-0 fw-bold">reponse</th>
-                                    </tr>
+                                    <th class="text-primary m-0 fw-bold">Nom participant</th>
+                                    <th class="text-primary m-0 fw-bold">Prenom participant</th>
+                                    <th class="text-primary m-0 fw-bold">Profil</th>
+                                    <th class="text-primary m-0 fw-bold">L'Evenement</th>
+                                     </tr>
                                 </thead>
                                     <tbody>
             <?php
-$sql = "SELECT * FROM event WHERE checked = 3";
+$sql = "SELECT mail_pnt, nom_pnt, prenom_pnt, profil_pnt, titre 
+FROM participant 
+JOIN event ON participant.id_event = event.id_event 
+WHERE mail='$mail_org'AND event.id_event=$id_event";
 $result = mysqli_query($conn, $sql);
 
 if (mysqli_num_rows($result) > 0) {
-    while ($row= mysqli_fetch_assoc($result)) {
-        $_SESSION['Mail_Org']=$row['mail'];
-        $img=$row['img'];
+    while ($row = mysqli_fetch_assoc($result)) {
         echo "<tr>";
-        echo "<td><img class='rounded-circle me-2' width='50' height='50' src='../../organisateur/dem_event/images/$img'></td>";
-        echo "<td class='text-center'>{$row['mail']}</td>";
+        echo "<td class='text-center'>{$row['mail_pnt']}</td>";
+        echo "<td class='text-center'>{$row['nom_pnt']}</td>";
+        echo "<td class='text-center'>{$row['prenom_pnt']}</td>";
+        echo "<td class='text-center'>{$row['profil_pnt']}</td>";
         echo "<td class='text-center'>{$row['titre']}</td>";
-        echo "<td class='text-center'>{$row['type']}</td>";
-        echo "<td class='text-center'>{$row['debut']}</td>";
-        echo "<td class='text-center'>{$row['local']}</td>";
-        echo "<td class='text-center'>{$row['gsm']}</td>";
-        echo "<td>";
-        echo "<form action='trait-prom_reçu.php' method='GET'>";
-        echo "<input type='hidden' name='id' value='{$row['id_event']}'>";
-        //echo "<button type='submit' name='validation' class='btn btn-success btn-sm ms-2'><a href='trait-prom_reçu.php' class='text-white text-decoration-none d-inline-block p-2' >Voir en d&eacutetails</a></button>";
-        echo "<button type='submit' class='btn btn-success btn-sm ms-2 text-white d-inline-block p-2' name='valider'style='padding:10px;Width:140px;margin:5%;'>Voir en detailles</button>";
-        echo "</form>";
-        echo "</td>";        
+        echo "</td>";
         echo "</tr>";
     }
 } else {
-    echo "<tr><td colspan='4'>No registration requests found.</td></tr>";
+    echo "<tr><td colspan='8'>No registration requests found.</td></tr>";
 }
 ?>
 
